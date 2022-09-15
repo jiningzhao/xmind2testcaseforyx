@@ -1,0 +1,29 @@
+用例名称,需求号,测试范围,模块名称,优先级,为核心用例,已自动化,为回归用例,前提条件,操作步骤,期望结果,执行结果
+省份推送材料信息增加字段 省份成功推送材料信息到垂管系统添加material_code字段,abc-1234,集成测试,材料信息增加一个字段,紧急,否,未自动化,否,"swagger地址：
+http://10.19.36.117:7007/swagger-cgxt/swagger-ui.html?urls.primaryName=%E5%9E%82%E7%AE%A1%E7%B3%BB%E7%BB%9FSDK
+垂管管理系统：
+http://10.19.36.116:8050/#/tab/serviceManage
+
+
+
+mycat：数据库tacs_up下up_pro_material表","1. 省份使用SDK推送材料信息（areaNo：141111，cdOperation：I，materialAttachPath：123456，materialCode：12345，materialName：project：serviceId：1000000044，systemNo：03144）到垂管系统的网关http://10.19.36.117:8280/ucPro/materialToDept接口
+2. 垂管系统双向服务接口推送材料信息到部委垂管系统
+3. 通过mycat查看数据库tacs_up下up_pro_material表
+","1. 省份推送材料信息成功，请求状态是200，响应数据是：{""code"": ""200"",""msg"":""成功""}
+2. 垂管系统推送材料信息成功
+3. 插入一条材料信息数据，material_code字段添加成功，各字段正确
+",未执行
+部委推送材料信息增加字段 部委成功推送材料信息到垂管系统添加material_code字段,abc-1234,集成测试,材料信息增加一个字段,紧急,否,未自动化,否,"swagger地址：
+http://10.19.36.117:7007/swagger-cgxt/swagger-ui.html?urls.primaryName=%E5%9E%82%E7%AE%A1%E7%B3%BB%E7%BB%9FSDK
+垂管管理系统：
+http://10.19.36.116:8050/#/tab/serviceManage
+
+
+
+mycat：数据库tacs_up下up_pro_material表","1. 部委使用SDK推送材料信息（appId：22323232323、areaNo：142222，cdOperation：I、materialAttachPath：qwerty、materialCode：01234、projectNo：142222、serviceId：1000000032、systemNo：03144）到垂管系统的网关http://10.19.36.117:8280/ucPro/materialToDept接口
+2. 垂管系统双向服务接口推送材料信息到省份垂管系统
+3. 通过mycat查看数据库tacs_up下up_pro_material表
+","1. 省份推送材料信息成功，请求状态是200，响应数据是：{""code"": ""200"",""msg"":""成功""}
+2. 垂管系统推送材料信息成功
+3. 插入一条材料信息数据，material_code字段添加成功，各字段正确
+",未执行
