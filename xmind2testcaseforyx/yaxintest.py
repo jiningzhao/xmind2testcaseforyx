@@ -52,7 +52,7 @@ def xmind_to_yaxin_xls_file(xmind_file):
 
 
 def gen_a_testcase_row(testcase_dict):
-    # 所属模块
+    # 所属模块、需求单号
     try:
         case_module, requirement_about_case = gen_case_module(testcase_dict['suite']).split("#")
     except Exception:
@@ -71,7 +71,7 @@ def gen_a_testcase_row(testcase_dict):
     case_priority = gen_case_priority(testcase_dict['importance'])
     # 测试范围
     case_type = gen_case_type(testcase_dict['execution_type'])
-    # 是否自动化
+    # 执行结果
     case_apply_phase = gen_case_apply_phase(testcase_dict['summary'])
     # 需求单号
     # requirement_about_case = gen_case_root(testcase_dict['root'])
@@ -82,8 +82,8 @@ def gen_a_testcase_row(testcase_dict):
     #        case_type, case_apply_phase]
     rows = []
     for i in range(0, len(case_step)):
-        row1 = [case_title, requirement_about_case, case_type, case_module, case_priority, "否", case_apply_phase, "否",
-                case_precontion, case_step[i], case_expected_result[i], "未执行"]
+        row1 = [case_title, requirement_about_case, case_type, case_module, case_priority, "否", "未自动化", "否",
+                case_precontion, case_step[i], case_expected_result[i], case_apply_phase]
         logging.info("===========" * 40, row1)
         rows.append(row1)
 
@@ -121,15 +121,16 @@ def gen_case_priority(priority):
 
 
 def gen_case_type(case_type):
-    if case_type == '无':
+    if case_type == '无' or case_type not in ['集成测试', '联调测试', '第三方测试', '性能测试', '稳定性测试',
+                                              '安全测试', '兼容测试']:
         return "集成测试"
     else:
         return case_type
 
 
 def gen_case_apply_phase(case_apply_phase):
-    if case_apply_phase == '无':
-        return "未自动化"
+    if case_apply_phase == '无' or case_apply_phase not in ['成功', '失败', '阻塞', '未执行']:
+        return "未执行"
     else:
         return case_apply_phase
 
@@ -192,12 +193,12 @@ def csv_to_xls(csv_path, xls_path):
             flag = type_list[i]
             e = i - 1
             if e >= s:
-                merge_nums.append([s + 2,e + 2])
+                merge_nums.append([s + 2, e + 2])
                 ws.merge_cells(list_keys[1] + str(s + 2) + ":" + list_keys[1] + str(e + 2))
                 s = e + 1
         if i == len(type_list) - 1:
             e = i
-            merge_nums.append([s + 2,e + 2])
+            merge_nums.append([s + 2, e + 2])
             ws.merge_cells(list_keys[1] + str(s + 2) + ":" + list_keys[1] + str(e + 2))
 
     wb.save(xls_path)
@@ -206,6 +207,9 @@ def csv_to_xls(csv_path, xls_path):
         for i in merge_nums:
             ws.merge_cells(list_keys[j] + str(i[0]) + ":" + list_keys[j] + str(i[1]))
 
+    sh_name = wb.sheetnames  # 获取所有sheet
+    sh = wb[sh_name[0]]
+    sh.title = "手工用例"
     wb.save(xls_path)
 
     return xls_path

@@ -142,9 +142,9 @@ def parse_a_testcase(case_dict, parent):
     #testcase.summary = summary if summary else testcase.name
     testcase.summary = summary if summary else '无'
     execution_type = gen_testcase_type(topics)
+    testcase.execution_type = execution_type if execution_type else '无'
 
-
-    testcase.execution_type = get_execution_type(topics)
+    # testcase.execution_type = get_execution_type(topics)
     testcase.importance = get_priority(case_dict) or 2
 
     step_dict_list = case_dict.get('topics', [])
