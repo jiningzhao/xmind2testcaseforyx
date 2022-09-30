@@ -71,8 +71,8 @@ def gen_a_testcase_row(testcase_dict):
     case_priority = gen_case_priority(testcase_dict['importance'])
     # 测试范围
     case_type = gen_case_type(testcase_dict['execution_type'])
-    # 执行结果
-    case_apply_phase = gen_case_apply_phase(testcase_dict['summary'])
+    # 是否为核心用例
+    case_core_or_not = gen_case_apply_phase(testcase_dict['summary'])
     # 需求单号
     # requirement_about_case = gen_case_root(testcase_dict['root'])
     # fileheader = ["所属模块", "用例标题", "前置条件", "步骤", "预期", "关键词", "优先级", "用例类型", "适用阶段"]
@@ -82,8 +82,9 @@ def gen_a_testcase_row(testcase_dict):
     #        case_type, case_apply_phase]
     rows = []
     for i in range(0, len(case_step)):
-        row1 = [case_title, requirement_about_case, case_type, case_module, case_priority, "否", "未自动化", "否",
-                case_precontion, case_step[i], case_expected_result[i], case_apply_phase]
+        row1 = [case_title, requirement_about_case, case_type, case_module, case_priority, case_core_or_not, "未自动化",
+                "否",
+                case_precontion, case_step[i], case_expected_result[i], "未执行"]
         logging.info("===========" * 40, row1)
         rows.append(row1)
 
@@ -128,11 +129,11 @@ def gen_case_type(case_type):
         return case_type
 
 
-def gen_case_apply_phase(case_apply_phase):
-    if case_apply_phase == '无' or case_apply_phase not in ['成功', '失败', '阻塞', '未执行']:
-        return "未执行"
+def gen_case_apply_phase(case_core_or_not):
+    if case_core_or_not == '无' or case_core_or_not not in ['是', '否']:
+        return "是"
     else:
-        return case_apply_phase
+        return case_core_or_not
 
 
 def gen_case_root(requirement_about_case):
